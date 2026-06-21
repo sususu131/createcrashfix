@@ -1,9 +1,16 @@
 def isWrapperTask = gradle.startParameter.taskNames.any { it == 'wrapper' || it.endsWith(':wrapper') }
 
+def mirrors = [
+    'https://maven.aliyun.com/repository/public',
+    'https://maven.minecraftforge.net',
+    'https://repo1.maven.org/maven2'
+]
+
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
-        mavenCentral()
+        for (mirror in mirrors) {
+            maven { url = mirror }
+        }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.54'
@@ -29,8 +36,9 @@ java {
 }
 
 repositories {
-    mavenCentral()
-    maven { url = 'https://maven.minecraftforge.net' }
+    for (mirror in mirrors) {
+        maven { url = mirror }
+    }
 }
 
 if (!isWrapperTask) {
