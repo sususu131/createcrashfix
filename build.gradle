@@ -1,0 +1,79 @@
+def isWrapperTask = gradle.startParameter.taskNames.any { it == 'wrapper' || it.endsWith(':wrapper') }
+
+buildscript {
+    repositories {
+        maven { url = 'https://maven.minecraftforge.net' }
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:6.0.54'
+    }
+}
+
+apply plugin: 'java'
+if (!isWrapperTask) {
+apply plugin: 'net.minecraftforge.gradle'
+}
+
+group = mod_group
+version = mod_version
+
+base {
+    archivesName = mod_id
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.minecraftforge.net' }
+}
+
+if (!isWrapperTask) {
+    minecraft {
+        mappings channel: 'official', version: minecraft_version
+    }
+
+    dependencies {
+        minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 17
+}
+
+jar {
+    manifest {
+        attributes([
+            'Specification-Title'     : mod_id,
+            'Specification-Vendor'    : mod_group,
+            'Specification-Version'   : '1',
+            'Implementation-Title'    : project.name,
+            'Implementation-Version'  : version,
+            'Implementation-Vendor'   : mod_group,
+            'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
+    }
+}
+
+processResources {
+    inputs.property 'version', version
+    inputs.property 'mod_id', mod_id
+    inputs.property 'mod_name', mod_name
+    inputs.property 'mod_authors', mod_authors
+
+    filesMatching('META-INF/mods.toml') {
+        expand(
+            version: version,
+            mod_id: mod_id,
+            mod_name: mod_name,
+            mod_authors: mod_authors
+        )
+    }
+}

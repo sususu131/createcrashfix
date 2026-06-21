@@ -1,0 +1,26 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+
+[[mods]]
+modId="createcrashfixcrashfix"
+version="1.0.0"
+displayName="CreateCrashFixCrashFix"
+authors="Sususu131"
+description='''
+Prevents CreateCrash / CreateCrasha / CreateCrashFixCrash from crashing your game.
+'''
+
+[[dependencies.createcrashfixcrashfix]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.createcrashfixcrashfix]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,1.21)"
+ordering="NONE"
+side="BOTH"

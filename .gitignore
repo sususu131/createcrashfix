@@ -1,0 +1,21 @@
+# Gradle
+.gradle/
+.gradle-user-home/
+build/
+*.jar
+*.war
+*.zip
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.class
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Misc
+*.log
+out/
